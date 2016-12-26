@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module external.linked.project.id="speech-to-text:main" external.linked.project.path="$MODULE_DIR$/../.." external.root.project.path="$MODULE_DIR$/../.." external.system.id="GRADLE" external.system.module.group="net.eviera.bluemix" external.system.module.type="sourceSet" external.system.module.version="1.0-SNAPSHOT" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8" inherit-compiler-output="false">
+    <output url="file://$MODULE_DIR$/../../build/classes/main" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/../../src/main">
+      <sourceFolder url="file://$MODULE_DIR$/../../src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../src/main/resources" type="java-resource" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Gradle: com.ibm.watson.developer_cloud:java-sdk:3.5.2" level="project" />
+    <orderEntry type="library" name="Gradle: com.ibm.watson.developer_cloud:alchemy:3.5.2" level="project" />
+    <orderEntry type="library" name="Gradle: com.ibm.watson.developer_cloud:conversation:3.5.2" level="project" />
+    <orderEntry type="library" name="Gradle: com.ibm.watson.developer_cloud:dialog:3.5.2" level="project" />
+    <orderEntry type="library" name="Gradle: com.ibm.watson.developer_cloud:document-conversion:3.5.2" level="project" />
+    <orderEntry type="library" name="Gradle: com.ibm.watson.developer_cloud:language-translation:3.5.2" level="project" />
+    <orderEntry type="library" name="Gradle: com.ibm.watson.developer_cloud:language-translator:3.5.2" level="project" />
+    <orderEntry type="library" name="Gradle: com.ibm.watson.developer_cloud:natural-language-classifier:3.5.2" level="project" />
+    <orderEntry type="library" name="Gradle: com.ibm.watson.developer_cloud:personality-insights:3.5.2" level="project" />
+    <orderEntry type="library" name="Gradle: com.ibm.watson.developer_cloud:retrieve-and-rank:3.5.2" level="project" />
+    <orderEntry type="library" name="Gradle: com.ibm.watson.developer_cloud:speech-to-text:3.5.2" level="project" />
+    <orderEntry type="library" name="Gradle: com.ibm.watson.developer_cloud:text-to-speech:3.5.2" level="project" />
+    <orderEntry type="library" name="Gradle: com.ibm.watson.developer_cloud:tone-analyzer:3.5.2" level="project" />
+    <orderEntry type="library" name="Gradle: com.ibm.watson.developer_cloud:tradeoff-analytics:3.5.2" level="project" />
+    <orderEntry type="library" name="Gradle: com.ibm.watson.developer_cloud:visual-recognition:3.5.2" level="project" />
+    <orderEntry type="library" name="Gradle: com.ibm.watson.developer_cloud:core:3.5.2" level="project" />
+    <orderEntry type="library" name="Gradle: com.squareup.okhttp3:okhttp-ws:3.3.1" level="project" />
+    <orderEntry type="library" name="Gradle: com.squareup.okhttp3:okhttp:3.3.1" level="project" />
+    <orderEntry type="library" name="Gradle: com.squareup.okhttp3:logging-interceptor:3.3.1" level="project" />
+    <orderEntry type="library" name="Gradle: com.squareup.okhttp3:okhttp-urlconnection:3.3.1" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.code.gson:gson:2.6.2" level="project" />
+    <orderEntry type="library" name="Gradle: org.glassfish.jersey.bundles.repackaged:jersey-jsr166e:2.22.2" level="project" />
+    <orderEntry type="library" name="Gradle: com.squareup.okio:okio:1.8.0" level="project" />
+  </component>
+</module>
