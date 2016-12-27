@@ -1,52 +1,48 @@
 package net.eviera.bluemix.speechtotext;
 
-
-import com.ibm.watson.developer_cloud.speech_to_text.v1.SpeechToText;
-import com.ibm.watson.developer_cloud.speech_to_text.v1.model.RecognizeOptions;
-import com.ibm.watson.developer_cloud.speech_to_text.v1.model.SpeechResults;
-import com.ibm.watson.developer_cloud.speech_to_text.v1.websocket.BaseRecognizeCallback;
-
-import java.util.Properties;
+import org.apache.commons.cli.*;
 
 public class Main {
 
-    public void prueba() {
-        try {
-            SpeechToText service = new SpeechToText();
-
-            Properties properties = new Properties();
-            properties.load(getClass().getClassLoader().getResourceAsStream("no-commitear-config.properties"));
-            service.setUsernameAndPassword(properties.getProperty("username"), properties.getProperty("password"));
-
-            RecognizeOptions options = new RecognizeOptions.Builder()
-                    .model("en-US_BroadbandModel")
-                    .contentType("audio/flac").continuous(true)
-                    .interimResults(true).maxAlternatives(3)
-                    .keywords(new String[]{"colorado", "tornado", "tornadoes"})
-                    .keywordsThreshold(0.5).build();
-
-            BaseRecognizeCallback callback = new BaseRecognizeCallback() {
-                @Override
-                public void onTranscription(SpeechResults speechResults) {
-                    System.out.println(speechResults);
-                }
-
-                @Override
-                public void onDisconnected() {
-                    System.exit(0);
-                }
-            };
-
-
-            service.recognizeUsingWebSocket(getClass().getClassLoader().getResourceAsStream("audio-file.flac"), options, callback);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     public static void main(String[] args) {
-        Main main = new Main();
-        main.prueba();
+        Options options = new Options();
+
+        Option userOption = new Option("u", "user", true, "Username for Bluemix");
+        userOption.setRequired(true);
+        options.addOption(userOption);
+
+        Option passOption = new Option("p", "pass", true, "Password for Bluemix");
+        passOption.setRequired(true);
+        options.addOption(passOption);
+
+        Option languageOption = new Option("l", "language", true, "Language: 'es' or 'en'");
+        languageOption.setRequired(true);
+        options.addOption(languageOption);
+
+        Option filePathOption = new Option("f", "file", true, "Audio input file path");
+        filePathOption.setRequired(true);
+        options.addOption(filePathOption);
+
+        CommandLineParser parser = new DefaultParser();
+        HelpFormatter formatter = new HelpFormatter();
+        CommandLine cmd;
+
+        try {
+            cmd = parser.parse(options, args);
+        } catch (ParseException e) {
+            System.out.println(e.getMessage());
+            formatter.printHelp("speech-to-text", options);
+            System.exit(1);
+            return;
+        }
+
+        String user = cmd.getOptionValue("u");
+        String pass = cmd.getOptionValue("p");
+        SpeechService.Lang language = SpeechService.Lang.valueOf(cmd.getOptionValue("l"));
+        String filePath = cmd.getOptionValue("f");
+
+        SpeechService service = new SpeechService();
+        service.translate(user, pass, language, filePath);
     }
+
 }
