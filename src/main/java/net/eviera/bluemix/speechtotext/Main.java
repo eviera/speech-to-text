@@ -19,7 +19,7 @@ public class Main {
         languageOption.setRequired(true);
         options.addOption(languageOption);
 
-        Option filePathOption = new Option("f", "file", true, "Audio input file path");
+        Option filePathOption = new Option("f", "file", true, "Audio input file path. Supported formats: wav, flac, ogg");
         filePathOption.setRequired(true);
         options.addOption(filePathOption);
 
