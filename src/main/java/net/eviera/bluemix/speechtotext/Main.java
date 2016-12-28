@@ -19,9 +19,13 @@ public class Main {
         languageOption.setRequired(true);
         options.addOption(languageOption);
 
-        Option filePathOption = new Option("f", "file", true, "Audio input file path. Supported formats: wav, flac, ogg");
-        filePathOption.setRequired(true);
-        options.addOption(filePathOption);
+        Option inputFileOption = new Option("i", "inputfile", true, "Audio input file path. Supported formats: wav, flac, ogg");
+        inputFileOption.setRequired(true);
+        options.addOption(inputFileOption);
+
+        Option outputFileOption = new Option("o", "outputfile", true, "Output text file");
+        outputFileOption.setRequired(true);
+        options.addOption(outputFileOption);
 
         CommandLineParser parser = new DefaultParser();
         HelpFormatter formatter = new HelpFormatter();
@@ -39,10 +43,11 @@ public class Main {
         String user = cmd.getOptionValue("u");
         String pass = cmd.getOptionValue("p");
         SpeechService.Lang language = SpeechService.Lang.valueOf(cmd.getOptionValue("l"));
-        String filePath = cmd.getOptionValue("f");
+        String inputFile = cmd.getOptionValue("i");
+        String outputFile = cmd.getOptionValue("o");
 
         SpeechService service = new SpeechService();
-        service.translate(user, pass, language, filePath);
+        service.translate(user, pass, language, inputFile, outputFile);
     }
 
 }

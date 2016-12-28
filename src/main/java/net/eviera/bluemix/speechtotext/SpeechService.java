@@ -3,13 +3,18 @@ package net.eviera.bluemix.speechtotext;
 import com.ibm.watson.developer_cloud.speech_to_text.v1.SpeechToText;
 import com.ibm.watson.developer_cloud.speech_to_text.v1.model.RecognizeOptions;
 import com.ibm.watson.developer_cloud.speech_to_text.v1.model.SpeechResults;
+import com.ibm.watson.developer_cloud.speech_to_text.v1.model.Transcript;
 import com.ibm.watson.developer_cloud.speech_to_text.v1.websocket.BaseRecognizeCallback;
 import com.sun.istack.internal.NotNull;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 public class SpeechService {
 
@@ -45,28 +50,36 @@ public class SpeechService {
     }
 
 
-    public void translate(String user, String pass, Lang language, String filePath) {
+    public void translate(String user, String pass, Lang language, String inputFile, String outputFile) {
         try {
             SpeechToText service = new SpeechToText();
             service.setUsernameAndPassword(user, pass);
 
-            Content contentType = parseContentTypeOnFileExtension(filePath);
-            final InputStream fis = new FileInputStream(filePath);
+            Content contentType = parseContentTypeOnFileExtension(inputFile);
+            final InputStream fis = new FileInputStream(inputFile);
 
             RecognizeOptions options = new RecognizeOptions.Builder()
                     .model(language.getModel())
                     .contentType(contentType.getType())
                     .continuous(true)
                     .interimResults(true)
-                    .maxAlternatives(3)
-                    .keywords(new String[]{"colorado", "tornado", "tornadoes"})
-                    .keywordsThreshold(0.5)
                     .build();
 
             BaseRecognizeCallback callback = new BaseRecognizeCallback() {
+
+                private String result = "";
+
+                @Override
+                public void onConnected() {
+                    super.onConnected();
+                    System.out.print("Writing to [" + outputFile + "] ");
+                }
+
                 @Override
                 public void onTranscription(SpeechResults speechResults) {
-                    System.out.println(speechResults);
+                    System.out.print(".");
+                    List<Transcript> results = speechResults.getResults();
+                    result = results.get(0).getAlternatives().get(0).getTranscript();
                 }
 
                 @Override
@@ -76,6 +89,17 @@ public class SpeechService {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+
+                    try {
+                        FileUtils.writeStringToFile(new File(outputFile), result, StandardCharsets.UTF_8);
+
+                    } catch (IOException e) {
+                        System.err.println("Error writing the output file [" + outputFile + "]");
+                        e.printStackTrace();
+                    }
+
+                    System.out.println("\nFinished");
+
                     System.exit(0);
                 }
             };
