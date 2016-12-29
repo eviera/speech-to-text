@@ -9,10 +9,7 @@ import com.sun.istack.internal.NotNull;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
@@ -49,6 +46,7 @@ public class SpeechService {
         }
     }
 
+    final String newLine = System.getProperty("line.separator");
 
     public void translate(String user, String pass, Lang language, String inputFile, String outputFile) {
         try {
@@ -67,7 +65,7 @@ public class SpeechService {
 
             BaseRecognizeCallback callback = new BaseRecognizeCallback() {
 
-                private String result = "";
+                private StringBuilder transcription = new StringBuilder();
 
                 @Override
                 public void onConnected() {
@@ -79,7 +77,13 @@ public class SpeechService {
                 public void onTranscription(SpeechResults speechResults) {
                     System.out.print(".");
                     List<Transcript> results = speechResults.getResults();
-                    result = results.get(0).getAlternatives().get(0).getTranscript();
+                    if (results.size() > 0) {
+                        Transcript lastResult = results.get(results.size() - 1);
+                        if (lastResult != null && lastResult.isFinal()) {
+                            transcription.append(lastResult.getAlternatives().get(0).getTranscript());
+                            transcription.append(newLine);
+                        }
+                    }
                 }
 
                 @Override
@@ -91,7 +95,7 @@ public class SpeechService {
                     }
 
                     try {
-                        FileUtils.writeStringToFile(new File(outputFile), result, StandardCharsets.UTF_8);
+                        FileUtils.writeStringToFile(new File(outputFile), transcription.toString(), StandardCharsets.UTF_8);
 
                     } catch (IOException e) {
                         System.err.println("Error writing the output file [" + outputFile + "]");
